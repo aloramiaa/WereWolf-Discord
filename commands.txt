@@ -1,0 +1,10 @@
+Werewolf Game (Slash Commands):
+/ww create - Creates a new Werewolf game lobby.
+/ww join - Joins an existing Werewolf game lobby.
+/ww start - Starts the Werewolf game.
+/ww end - Ends the current Werewolf game (game host or admin only).
+/ww settings - (Host only) Opens a menu to toggle special roles like Jester, Executioner, Arsonist, Mayor, Veteran, Alpha Wolf, and Sorcerer on or off for the game.
+/ww reveal - (Mayor only) Reveals you as the Mayor, making your vote count as two for all future votes.
+
+Owner Commands (Prefix Commands):
+!sync - Syncs slash commands with Discord. 
