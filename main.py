@@ -41,6 +41,7 @@ async def load_cogs():
                 path = os.path.join(root, filename)
                 # make it a python module path
                 extension_path = path.replace(os.path.sep, '.')[:-3]
+                print(f"Attempting to load extension: {extension_path}")
                 try:
                     await bot.load_extension(extension_path)
                     print(f'Loaded extension: {extension_path}')
@@ -50,9 +51,11 @@ async def load_cogs():
 async def main():
     async with bot:
         await load_cogs()
-        # You need to replace 'YOUR_BOT_TOKEN' with your actual bot token
-        # It's recommended to use an environment variable for this
-        await bot.start(os.environ.get('DISCORD_BOT_TOKEN', 'YOUR_BOT_TOKEN'))
+        token = os.environ.get('DISCORD_BOT_TOKEN')
+        if not token or token == 'YOUR_BOT_TOKEN':
+            print('ERROR: DISCORD_BOT_TOKEN environment variable not set!')
+            return
+        await bot.start(token)
 
 if __name__ == "__main__":
     # Ensure you have a .env file with DISCORD_BOT_TOKEN='your_token'

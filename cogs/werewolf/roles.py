@@ -1,5 +1,4 @@
 import discord
-from discord.ext import commands
 from .core import Role, get_game_ref
 from .views import (
     NightActionView, WitchActionView, CupidSelectionView, ArsonistActionView,
@@ -7,15 +6,6 @@ from .views import (
 )
 from collections import Counter
 import random
-
-class Roles(commands.Cog):
-    """Cog for defining the abilities of different Werewolf roles."""
-    def __init__(self, bot: commands.Bot):
-        self.bot = bot
-
-    # The logic for what each role (Seer, Doctor, Witch, etc.) can do
-    # will be implemented here. For example, the Seer's night action
-    # to inspect a player will be a method in this class.
 
 async def send_early_night_prompts(bot: commands.Bot, game_data: dict):
     """Sends DMs with interactive views to players with non-witch night roles."""

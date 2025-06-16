@@ -84,6 +84,10 @@ def get_game_data(channel_id: int):
         return None
     return game_ref.get()
 
+def check_game_host(user_id, game_ref):
+    game_data = game_ref.get()
+    return game_data and game_data.get('creator_id') == user_id
+
 # --- Core Game Logic ---
 async def distribute_roles(game_ref, game_data: dict, players: dict):
     """Assigns roles to players based on game settings and stores them in Firebase."""

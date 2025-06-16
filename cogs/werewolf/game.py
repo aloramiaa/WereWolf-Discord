@@ -107,8 +107,7 @@ class Game(commands.Cog):
             return
         
         players = game_data.get("players", {})
-        # Set to 4 for a real game, 1 for testing
-        if len(players) < 1:
+        if len(players) < 4:
              await interaction.response.send_message(f"You can't play with only {len(players)} person! You need at least 4 players for a proper game!", ephemeral=True)
              return
 

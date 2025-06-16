@@ -3,7 +3,7 @@ from discord.ext import commands
 from discord import app_commands
 from firebase_admin import db
 
-from .core import Role, get_game_ref_for_channel, check_game_host
+from .core import Role, get_game_ref, check_game_host
 
 class RoleToggle(discord.ui.Button):
     """A button to toggle a specific role on or off for the game."""
@@ -20,7 +20,7 @@ class RoleToggle(discord.ui.Button):
         # Defer to prevent "interaction failed" on longer operations
         await interaction.response.defer(ephemeral=True)
 
-        game_ref = get_game_ref_for_channel(interaction.channel_id)
+        game_ref = get_game_ref(interaction.channel_id)
         if game_ref is None:
             await interaction.followup.send("No game is running in this channel.", ephemeral=True)
             return
@@ -29,7 +29,7 @@ class RoleToggle(discord.ui.Button):
              await interaction.followup.send("Only the game host can change settings.", ephemeral=True)
              return
 
-        enabled_roles_ref = game_ref.child('settings/enabled_roles')
+        enabled_roles_ref = game_ref.child('settings/roles')
         current_roles = enabled_roles_ref.get() or []
 
         role_name = self.role.value
@@ -72,7 +72,7 @@ class SettingsCog(commands.Cog):
     @app_commands.command(name="ww-settings", description="Change the roles for the next Werewolf game.")
     @app_commands.guild_only()
     async def ww_settings(self, interaction: discord.Interaction):
-        game_ref = get_game_ref_for_channel(interaction.channel_id)
+        game_ref = get_game_ref(interaction.channel_id)
         if game_ref is None:
             return await interaction.response.send_message("There is no game running in this channel to configure.", ephemeral=True)
 
@@ -83,7 +83,7 @@ class SettingsCog(commands.Cog):
         if game_state != 'lobby':
             return await interaction.response.send_message("Settings can only be changed while the game is in the lobby.", ephemeral=True)
 
-        enabled_roles = game_ref.child('settings/enabled_roles').get() or []
+        enabled_roles = game_ref.child('settings/roles').get() or []
         
         embed = discord.Embed(
             title="🐺 Werewolf Game Settings 🔮",
